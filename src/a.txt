@@ -1,0 +1,623 @@
+import React, { useState } from 'react';
+
+const LoginForm = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch('http://127.0.0.1:4000/users/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await response.json();
+    console.log('API response data:', data); // Log the entire response to inspect
+
+    if (response.ok) {
+      setMessage('Login successful!');
+      
+      // Access the access token from the nested data property
+      const accessToken = data.data?.access_token;
+
+      if (accessToken) {
+        localStorage.setItem('access-token', accessToken);
+        console.log('Access token saved to local storage:', accessToken);
+      } else {
+        console.error('Access token not found in response:', data);
+      }
+    } else {
+      setMessage(data.message || 'Login failed!');
+    }
+  };
+
+  return (
+    <form onSubmit={handleLogin}>
+      <h2>Login</h2>
+      <div>
+        <label>Username:</label>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </div>
+      <button type="submit">Login</button>
+      <p>{message}</p>
+    </form>
+  );
+};
+
+export default LoginForm;
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useState } from 'react';
+
+const LoginForm = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch('http://127.0.0.1:4000/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+      console.log('API response data:', data); // Log the entire response to inspect
+
+      if (response.ok) {
+        setMessage('Login successful!');
+        
+        // Check if access_token is present and correct
+        const accessToken = data.data?.access_token;
+        console.log('Extracted access token:', accessToken);
+
+        if (accessToken) {
+          localStorage.setItem('access-token', accessToken);
+          console.log('Access token saved to local storage:', localStorage.getItem('access-token'));
+        } else {
+          console.error('Access token not found in response:', data);
+        }
+      } else {
+        setMessage(data.message || 'Login failed!');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      setMessage('An error occurred during login.');
+    }
+  };
+
+  return (
+    <form onSubmit={handleLogin}>
+      <h2>Login</h2>
+      <div>
+        <label>Username:</label>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </div>
+      <button type="submit">Login</button>
+      <p>{message}</p>
+    </form>
+  );
+};
+
+export default LoginForm;
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+
+const LoginForm = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch('http://127.0.0.1:4000/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+      console.log('API response data:', data);
+      if (response.ok) {
+        setMessage('Login successful!');
+        
+        const accessToken = data.data?.access_token;
+        console.log('Extracted access token:', accessToken);
+
+        if (accessToken) {
+          localStorage.setItem('access-token', accessToken);
+          console.log('Access token saved to local storage:', localStorage.getItem('access-token'));
+          
+          // Navigate to the home screen after login
+          navigate('/home');
+        } 
+      } else {
+        setMessage(data.message || 'Login failed!');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      setMessage('An error occurred during login.');
+    }
+  };
+
+  return (
+    <form onSubmit={handleLogin}>
+      <h2>Login</h2>
+      <div>
+        <label>Username:</label>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </div>
+      <button type="submit">Login</button>
+      <p>{message}</p>
+    </form>
+  );
+};
+
+export default LoginForm;
+
+
+
+
+
+
+
+
+
+import React from 'react'
+
+const Login = () => {
+  return (
+    <div>
+        <h1>Login</h1>
+        <div>
+        <label className='block text-base mb-2'>Username</label>
+        <input />
+        </div>
+        <div>
+        <label>Password</label>
+        <input/>
+        </div>
+
+
+    </div>
+  )
+}
+
+export default Login
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React from 'react';
+import './App.css';
+import Login from './Login';
+import Register from './Register';
+import Home from './Home';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import ProtectedRoutes from './Services/ProtectedRoutes';
+import Error from './Error';
+
+function App() {
+  const isAuthenticated = localStorage.getItem('access-token');
+
+  return (
+    <div className="App">
+      <Router>
+        <Routes>
+          {/* Redirect authenticated users to the error page if they try to access login or register */}
+          <Route 
+            path='/login' 
+            element={isAuthenticated ? <Navigate to="/error" /> : <Login />} 
+          />
+          <Route 
+            path='/register' 
+            element={isAuthenticated ? <Navigate to="/error" /> : <Register />} 
+          />
+
+          {/* Protect home route */}
+          <Route path='/' element={<ProtectedRoutes />}>
+            <Route path='/' element={<Home />} />
+          </Route>
+
+          {/* Route for Error Page */}
+          <Route path='/error' element={<Error />} />
+
+          {/* Catch-all route for undefined URLs */}
+          <Route path='*' element={<Error />} />
+        </Routes>
+      </Router>
+    </div>
+  );
+}
+
+export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const Home = () => {
+  const [accessToken, setAccessToken] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Retrieve the access token from localStorage
+    const token = localStorage.getItem('access-token');
+    setAccessToken(token);
+
+    // If no token is found, navigate to the login page
+    // if (!token) {
+    //   navigate('/login', { replace: true });
+    // }
+  }, [navigate]);
+
+  const logout = () => {
+    // Clear the access token from localStorage
+    localStorage.removeItem('access-token');
+    localStorage.clear();
+
+    // Force a full page reload to ensure the user is logged out
+    window.location.href = '/login';
+  };
+
+  return (
+    <div className='bg-cyan-200'>
+      <h1 className='text-cyan-600 text-3xl'>Home</h1>
+      <p className='text-lg'>Your Access Token: {accessToken}</p>
+      <button type="button" onClick={logout} className='mb-20 bg-red-500 font-bold text-white rounded px-4 justify-end text-xl mt-5 '  >Log Out</button>
+    </div>
+  );
+};
+
+export default Home;
+
+
+<ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            <h3>{todo.name}</h3>
+            <p>{todo.description}</p>
+          </li>
+        ))}
+      </ul>
+
+
+
+
+
+
+
+
+// import logo from './logo.svg';
+// import './App.css';
+// import Login from './Login';
+// import Register from './Register';
+// import Home from './Home';
+// import {BrowserRouter as Router,Route, Routes, Navigate } from 'react-router-dom';
+// import ProtectedRoutes from './Services/ProtectedRoutes';
+// import Error from './Error';
+
+
+// function App() {
+//   const isAuthenticated=localStorage.getItem('access-token')
+//   return (
+//     <div className="App">
+//       <Router>
+//         <Routes>
+//         <Route path='/login' element={isAuthenticated ? <Navigate/> : <Login/> } 
+        
+//         />
+//         <Route path='/register' element={isAuthenticated ? <Navigate/> : <Register/>}/>
+//         <Route path='/'  element={<ProtectedRoutes/>}>
+//         <Route path='/' element={<Home/>}/>
+//         <Route path='*' element={<Error/>} />
+//         </Route>
+//         </Routes>
+//     </Router>
+//     </div>
+//   );
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useState } from 'react';
+
+function ToDo() {
+  const [tasks, setTasks] = useState([]);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); // State to handle error messages
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const handleAddTask = () => {
+    if (title.trim() && description.trim()) {
+      const newTask = { title, description };
+      const accessToken = localStorage.getItem('access-token');
+
+      // Reset any previous error message
+      setErrorMessage('');
+
+      fetch('http://127.0.0.1:4000/todo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`, 
+        },
+        body: JSON.stringify(newTask),
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to save the task');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setTasks(prevTasks => [...prevTasks, data]);
+        // Clear input fields after adding the task
+        setTitle('');
+        setDescription('');
+      })
+      .catch(error => {
+        console.error('Error adding task:', error.message);
+        setErrorMessage('There was an issue saving your task. Please try again.'); // Set error message
+      });
+    } else {
+      setErrorMessage('Title and description cannot be empty.');
+    }
+  };
+
+  const logout = () => {
+    // Clear the access token from localStorage
+    localStorage.removeItem('access-token');
+    localStorage.clear();
+
+    // Force a full page reload to ensure the user is logged out
+    window.location.href = '/login';
+  };
+
+  return (
+    <div>
+      <h1>ToDo List</h1>
+      <input 
+        type="text" 
+        value={title} 
+        onChange={handleTitleChange} 
+        placeholder="Task Title"
+      />
+      <textarea 
+        value={description} 
+        onChange={handleDescriptionChange} 
+        placeholder="Task Description"
+      ></textarea>
+      <button onClick={handleAddTask}>Add Task</button>
+      
+      {/* Display the error message if there's an error */}
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+
+      <ul>
+        {tasks.map((task, index) => (
+          <li key={index}>
+            <strong>{task.title}</strong>: {task.description}
+          </li>
+        ))}
+      </ul>
+
+      {/* Logout button */}
+      <button 
+        type="button" 
+        onClick={logout} 
+        className="mb-20 bg-red-500 font-bold text-white rounded px-4 justify-end text-xl mt-5"
+      >
+        Log Out
+      </button>
+    </div>
+  );
+}
+
+export default ToDo;
+
+
+
+
+
+
+
+
+
+
+<ul className="space-y-4">
+  {tasks.map((task, index) => (
+    <li 
+      key={index} 
+      className="bg-gray-100 p-4 rounded-lg shadow-md flex justify-between items-center"
+    >
+      <div>
+        <strong className="block text-lg font-semibold text-gray-800">{task.title}</strong>
+        <p className="text-gray-600">{task.description}</p>
+      </div>
+      <div className="flex space-x-2">
+        <button 
+          className="text-white bg-blue-500 hover:bg-blue-600 py-2 px-4 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-300"
+          onClick={() => handleEditClick(task)}
+        >
+          Edit
+        </button>
+        <button 
+          className="text-white bg-red-500 hover:bg-red-600 py-2 px-4 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-red-300"
+          onClick={() => handleDeleteTask(task.id)}
+        >
+          Delete
+        </button>
+      </div>
+    </li>
+  ))}
+</ul>
+
+<button 
+  type="button" 
+  onClick={logout} 
+  className="bg-red-500 hover:bg-red-600 text-white font-bold rounded-lg px-6 py-3 mt-8 mx-auto block focus:outline-none focus:ring-2 focus:ring-red-300"
+>
+  Log Out
+</button>
+
+
+
+
+  {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-xl mb-4">{editingTaskId ? 'Edit Task' : 'Add New Task'}</h2>
+
+            <input 
+              type="text" 
+              placeholder="Title" 
+              value={title} 
+              onChange={handleTitleChange} 
+              className="w-full p-2 border border-gray-300 rounded mb-4"
+            />
+
+            <textarea 
+              placeholder="Description" 
+              value={description} 
+              onChange={handleDescriptionChange} 
+              className="w-full p-2 border border-gray-300 rounded mb-4"
+            />
+
+            <div className="flex justify-between">
+              <button 
+                onClick={editingTaskId ? handleEditTask : handleAddTask} 
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+              >
+                {editingTaskId ? 'Update Task' : 'Add Task'}
+              </button>
+              <button 
+                onClick={() => setIsModalOpen(false)} 
+                className="bg-red-500 text-white px-4 py-2 rounded"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}

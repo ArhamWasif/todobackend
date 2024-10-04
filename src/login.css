@@ -1,0 +1,9 @@
+/* Add this CSS to your global styles or a relevant CSS/SCSS file */
+@keyframes fillLine {
+    0% { width: 0; }
+    100% { width: 100%; }
+}
+
+.line-fill {
+    animation: fillLine 3s ease-in-out forwards;
+}
